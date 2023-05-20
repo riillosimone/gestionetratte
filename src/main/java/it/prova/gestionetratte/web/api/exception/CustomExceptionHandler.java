@@ -67,4 +67,44 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(AirbusConTratteException.class)
+	public ResponseEntity<Object> handleAirbusConTratteException(AirbusConTratteException ex, WebRequest request) {
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+		return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(TrattaNonAnnullataException.class)
+	public ResponseEntity<Object> handleTrattaNonAnnullataException(TrattaNonAnnullataException ex, WebRequest request) {
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+		return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(DataTrattaBeforeDataInizioServizioException.class)
+	public ResponseEntity<Object> handleDataTrattaBeforeDataInizioServizioException(DataTrattaBeforeDataInizioServizioException ex, WebRequest request) {
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.BAD_REQUEST);
+
+		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(OraDecolloAfterOraAtterraggioException.class)
+	public ResponseEntity<Object> handleOraDecolloAfterOraAtterraggioException(OraDecolloAfterOraAtterraggioException ex, WebRequest request) {
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.BAD_REQUEST);
+
+		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+	}
 }

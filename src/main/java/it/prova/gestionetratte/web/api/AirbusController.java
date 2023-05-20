@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.prova.gestionetratte.dto.AirbusDTO;
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.service.AirbusService;
+import it.prova.gestionetratte.web.api.exception.AirbusConTratteException;
 import it.prova.gestionetratte.web.api.exception.AirbusNotFoundException;
 import it.prova.gestionetratte.web.api.exception.IdNotNullForInsertException;
 
@@ -39,9 +40,6 @@ public class AirbusController {
 	public AirbusDTO findById(@PathVariable(value = "id",required = true) long id) {
 		Airbus airbus = airbusService.caricaSingoloElementoConTratte(id);
 		
-		if (airbus == null) {
-			throw new AirbusNotFoundException("Airbus not found con id: "+ id);
-		}
 		return AirbusDTO.buildAirbusDTOFromModel(airbus, true);
 	}
 	

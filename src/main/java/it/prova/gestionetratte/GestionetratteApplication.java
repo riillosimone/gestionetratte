@@ -53,7 +53,7 @@ public class GestionetratteApplication implements CommandLineRunner{
 		}
 		
 		Tratta trattaMilanoTokyo = new Tratta("KKOOP67", "Milano-Tokyo", LocalDate.of(2022, 12, 1), LocalTime.of(10, 0), LocalTime.of(18, 30), Stato.CONCLUSA, airbus2);
-		if (trattaService.findByCodiceAndDescrizione(trattaMilanoTokyo.getCodice(), trattaMilanoNapoli.getDescrizione()).isEmpty()) {
+		if (trattaService.findByCodiceAndDescrizione(trattaMilanoTokyo.getCodice(), trattaMilanoTokyo.getDescrizione()).isEmpty()) {
 			trattaService.inserisciNuovo(trattaMilanoTokyo);
 		}
 	}

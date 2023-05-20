@@ -47,15 +47,15 @@ public class TrattaController {
 	@GetMapping("/{id}")
 	public TrattaDTO findById(@PathVariable(value = "id", required = true) long id) {
 		Tratta tratta = trattaService.caricaSingoloElementoEager(id);
-		if (tratta == null) {
-			throw new TrattaNotFoundException("Tratta not found con id: "+id);
-		}
+		
 		return TrattaDTO.buildTrattaDTOFromModel(tratta, false);
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete (@PathVariable(value = "id", required = true) Long id) {
+		
+		
 		trattaService.rimuovi(id);
 	}
 	
@@ -68,5 +68,15 @@ public class TrattaController {
 		trattainput.setId(id);
 		Tratta trattaAggiornata= trattaService.aggiorna(trattainput.buildTrattaModel());
 		return TrattaDTO.buildTrattaDTOFromModel(trattaAggiornata, true);
+	}
+	
+	@PostMapping("/search")
+	public List<TrattaDTO> search(@RequestBody TrattaDTO example) {
+		return TrattaDTO.createTrattaDTOListFromModelList(trattaService.findByExample(example.buildTrattaModel()), true);
+	}
+	
+	@GetMapping("/concludiTratte")
+	public List<TrattaDTO> concludiTratte(){
+		return TrattaDTO.createTrattaDTOListFromModelList(trattaService.concludiTratte(), true) ;
 	}
 }

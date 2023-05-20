@@ -17,4 +17,7 @@ public interface TrattaRepository extends CrudRepository<Tratta, Long>,CustomTra
 	
 	@Query("select t from Tratta t join fetch t.airbus")
 	List<Tratta> findAllTrattaEager();
+	
+	@Query("select t from Tratta t where t.stato = 0")
+	List<Tratta> findAllTratteAttive();
 }

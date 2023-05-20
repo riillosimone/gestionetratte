@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.repository.AirbusRepository;
+import it.prova.gestionetratte.web.api.exception.AirbusConTratteException;
 import it.prova.gestionetratte.web.api.exception.AirbusNotFoundException;
-
 
 @Service
 @Transactional(readOnly = true)
@@ -17,7 +17,7 @@ public class AirbusServiceImpl implements AirbusService {
 
 	@Autowired
 	private AirbusRepository repository;
-	
+
 	@Override
 	public List<Airbus> listAllElements() {
 		return (List<Airbus>) repository.findAll();
@@ -30,12 +30,20 @@ public class AirbusServiceImpl implements AirbusService {
 
 	@Override
 	public Airbus caricaSingoloElemento(Long id) {
-		return repository.findById(id).orElse(null);
+		Airbus airbusDaCaricare = repository.findById(id).orElse(null);
+		if (airbusDaCaricare == null) {
+			throw new AirbusNotFoundException("Airbus not found con id: " + id);
+		}
+		return airbusDaCaricare;
 	}
 
 	@Override
 	public Airbus caricaSingoloElementoConTratte(Long id) {
-		return repository.findByIdEager(id);
+		Airbus airbusDaCaricare = repository.findByIdEager(id);
+		if (airbusDaCaricare == null) {
+			throw new AirbusNotFoundException("Airbus not found con id: " + id);
+		}
+		return airbusDaCaricare;
 	}
 
 	@Override
@@ -53,8 +61,14 @@ public class AirbusServiceImpl implements AirbusService {
 	@Override
 	@Transactional
 	public void rimuovi(Long idToRemove) {
-		repository.findById(idToRemove)
-				.orElseThrow( () -> new AirbusNotFoundException("Airbus not found con id: "+idToRemove));
+		Airbus airbusToDelete = repository.findById(idToRemove)
+				.orElseThrow(() -> new AirbusNotFoundException("Airbus not found con id: " + idToRemove));
+		if (airbusToDelete == null) {
+			throw new AirbusNotFoundException("Airbus not found con id: "+ idToRemove);
+		}
+		if (!airbusToDelete.getTratte().isEmpty()) {
+			throw new AirbusConTratteException("Attenzione! Elimina le tratte collegate prima di eliminare l'airbus.");
+		}
 		repository.deleteById(idToRemove);
 	}
 
