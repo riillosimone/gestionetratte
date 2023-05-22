@@ -1,8 +1,6 @@
 package it.prova.gestionetratte.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.model.Stato;
 import it.prova.gestionetratte.model.Tratta;
-import it.prova.gestionetratte.repository.AirbusRepository;
 import it.prova.gestionetratte.repository.TrattaRepository;
 import it.prova.gestionetratte.web.api.exception.DataTrattaBeforeDataInizioServizioException;
 import it.prova.gestionetratte.web.api.exception.OraDecolloAfterOraAtterraggioException;

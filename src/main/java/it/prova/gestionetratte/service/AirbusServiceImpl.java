@@ -86,5 +86,10 @@ public class AirbusServiceImpl implements AirbusService {
 	public List<Airbus> cercaByCodiceEDescrizioneLike(String term) {
 		return repository.findByCodiceIgnoreCaseContainingOrDescrizioneIgnoreCaseContainingOrderByCodiceAsc(term, term);
 	}
-
+	
+	public List<Airbus> listaAirbusConSovrapposizioni () {
+		return repository.airbusConSovrapposizioni();
+	}
+	
+	
 }

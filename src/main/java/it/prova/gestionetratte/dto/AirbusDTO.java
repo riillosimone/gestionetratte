@@ -31,6 +31,17 @@ public class AirbusDTO {
 	@JsonIgnoreProperties(value = { "airbus" })
 	private Set<TrattaDTO> tratte = new HashSet<>();
 
+	private Boolean conSovrapposizioni;
+	
+	
+	public boolean isConSovrapposizioni() {
+		return conSovrapposizioni;
+	}
+
+	public void setConSovrapposizioni(boolean conSovrapposizioni) {
+		this.conSovrapposizioni = conSovrapposizioni;
+	}
+
 	public AirbusDTO() {
 		super();
 	}
@@ -140,7 +151,7 @@ public class AirbusDTO {
 	public static AirbusDTO buildAirbusDTOFromModel(Airbus airbusModel,boolean includeTratte) {
 		AirbusDTO result = new AirbusDTO(airbusModel.getId(), airbusModel.getCodice(), airbusModel.getDescrizione(), airbusModel.getDataInizioServizio(), airbusModel.getNumeroPasseggeri());
 		if (includeTratte) {
-			result.setTratte(null);
+			result.setTratte(TrattaDTO.createTrattaDTOSetFromModelSet(airbusModel.getTratte(), false));
 		}
 		return result;
 	}
@@ -149,9 +160,22 @@ public class AirbusDTO {
 		return modelListInput.stream().map(airbusEntity -> {
 			AirbusDTO result = AirbusDTO.buildAirbusDTOFromModel(airbusEntity, includeTratte);
 			if (includeTratte) {
-				result.setTratte(null);
+				result.setTratte(TrattaDTO.createTrattaDTOSetFromModelSet(airbusEntity.getTratte(), false));
 			}
 			return result;
 		}).collect(Collectors.toList());
 	} 
+	
+	public static List<AirbusDTO> createAirbusDTOListFromModelListSovrapp(List<Airbus> modelListInput, boolean includeTratte,boolean conSovrapposizione) {
+		return modelListInput.stream().map(airbusEntity -> {
+			AirbusDTO result = AirbusDTO.buildAirbusDTOFromModel(airbusEntity, includeTratte);
+			if (includeTratte) {
+				result.setTratte(TrattaDTO.createTrattaDTOSetFromModelSet(airbusEntity.getTratte(), false));
+			}
+			if (conSovrapposizione) {
+				result.setConSovrapposizioni(true);
+			}
+			return result;
+		}).collect(Collectors.toList());
+	}
 }

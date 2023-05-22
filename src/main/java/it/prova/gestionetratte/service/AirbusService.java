@@ -25,4 +25,6 @@ public interface AirbusService {
 	Airbus findByCodiceAndDescrizione(String codice,String descrizione);
 	
 	List<Airbus> cercaByCodiceEDescrizioneLike(String term);
+	
+	List<Airbus> listaAirbusConSovrapposizioni ();
 }
